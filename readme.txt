@@ -1,266 +1,100 @@
-
-// ---- ’è‹`
-
-  Å“K‰»‚Ìˆ×‚Ìƒƒ‚ƒŠg—p—Ê‚Ì—}§
-    MEMOPTIMIZE = 0`2
-
-    CPU‚É‚æ‚èˆÈ‰º‚Ì”’l‚ğƒZƒbƒg‚³‚ê‚é‚±‚Æ‚ğŠú‘Ò‚µ‚Ä‚¢‚é
-      MEMOPTIMIZE–¢’è‹` c Celeron333AˆÈ~‚ÌƒZƒJƒ“ƒhƒLƒƒƒbƒVƒ…—LŒø‹@
-      MEMOPTIMIZE = 0   c x86
-      MEMOPTIMIZE = 1   c PowerPC“™‚ÌƒfƒXƒNƒgƒbƒv—pRISC
-      MEMOPTIMIZE = 2   c StrongARM“™‚Ì‘g‚İ‚İ—pRISC
-
-
-  ƒRƒ“ƒpƒCƒ‰‚Ìˆø‚«”E–ß‚è’l‚ÌÅ“K‰»
-    ˆø‚«”E–ß‚è’l‚ÅintŒ^ˆÈŠO‚ğw’è‚µ‚½ê‡‚ÉAÅ“K‰»‚ª—LŒø‚É“­‚©‚È‚¢
-    ƒRƒ“ƒpƒCƒ‰Œü‚¯‚Ì’è‹`‚Å‚·B
-    ’Êí‚Í common.h ‚Ì•¨‚ğg—p‚µ‚Ü‚·B
-      REG8 c UINT8Œ^ / (sizeof(REG8) != 1)‚Ìê‡ ãˆÊƒrƒbƒg‚ğ0fill‚·‚é–
-      REG16 c UINT16Œ^ / (sizeof(REG16) != 2)‚Ìê‡ ãˆÊƒrƒbƒg‚ğ0fill‚·‚é–
-@@@‚¢‚¸‚ê‚à’l‚ğƒZƒbƒg‚·‚é‘¤‚ª0fill‚µAQÆ‘¤‚Í0fill‚µ‚½‚à‚Ì‚ÆŒ©‚È‚µ‚Ü‚·B
-
-
-  OS‚ÌŒ¾Œê‚Ì‘I‘ğ
-    OSLANG_SJIS c Shift-JIS‚ÌŠ¿šƒR[ƒh‚ğ‰ğß‚·‚é
-    OSLANG_EUC  c EUC‚ÌŠ¿šƒR[ƒh‚ğ‰ğß‚·‚é
-
-    OSLINEBREAK_CR   c MacOS   "\r"
-    OSLINEBREAK_LF   c Unix    "\n"
-    OSLINEBREAK_CRLF c Windows "\r\n"
-
-      ¦Œ»İ‚ÍˆÈ‰º‚Ìƒ\[ƒXƒR[ƒh“à‚ÅŒÂ•Ê‚Éİ’è‚µ‚Ä‚¢‚Ü‚·B
-        (Windows‚ª API‚É‚æ‚Á‚Ä \r\n‚Ìê‡‚Æ\n‚Ìê‡‚ª‚ ‚é‚Ì‚Åc)
-        Ecommon/_memory.c
-        Edebugsub.c
-        Estatsave.c
-
-    (milstr.h‘I‘ğ—p)
-    SUPPORT_ANK      c ANK•¶š—ñ‘€ìŠÖ”‚ğƒŠƒ“ƒN‚·‚é
-    SUPPORT_SJIS     c SJIS•¶š—ñ‘€ìŠÖ”‚ğƒŠƒ“ƒN‚·‚é
-    SUPPORT_EUC      c EUC•¶š—ñ‘€ìŠÖ”‚ğƒŠƒ“ƒN‚·‚é
-
-      ¦Œ»İmilstr.h‚Å‚·‚×‚Ä’è‹`‚³‚ê‚½‚Ü‚Ü‚É‚È‚Á‚Ä‚¢‚Ü‚·B
-        ver0.73‚Åmilstr.h‚Ì’è‹`‚ğŠO‚µ compiler.h‚Åw’è‚µ‚½•¨‚Æ‚È‚è‚Ü‚·B
-
-
-@CPUCORE_IA32
-@@IA32ƒA[ƒLƒeƒNƒ`ƒƒ‚ğÌ—p
-@@@i386c‚ğg—p‚·‚éê‡‚Ì’ˆÓ“_
-@@  ECPU panic ‚âŒx•\¦‚É msgbox() ‚Æ‚¢‚¤ API ‚ğg—p‚µ‚Ü‚·B
-@@@@compiler.h ‚ ‚½‚è‚Å“K“–‚É’è‹`‚µ‚Ä‚­‚¾‚³‚¢B
-@@@Esigsetjmp(3), siglongjmp(3) ‚ª–³‚¢ƒA[ƒLƒeƒNƒ`ƒƒ‚ÍˆÈ‰º‚Ì define ‚ğ
-@@@@compiler.h ‚ ‚½‚è‚É’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
-@@@@----------------------------------------------------------------------
-        #define sigjmp_buf              jmp_buf
-        #define sigsetjmp(env, mask)    setjmp(env)
-        #define siglongjmp(env, val)    longjmp(env, val)
-@@@@----------------------------------------------------------------------
-
-  CPUSTRUC_MEMWAIT
-@@@cpucore\‘¢‘Ì‚Éƒƒ‚ƒŠƒEƒFƒCƒg’l‚ğˆÚ“®‚·‚é(vramop)
-
-  CGWND_FONTPTR
-@@@cgwindow‚ÉƒtƒHƒ“ƒgƒ|ƒCƒ“ƒ^‚ğ‚½‚¹‚é
-@@@Œ»óA‚ ‚Ü‚èˆÓ–¡‚ğ‚¿‚Ü‚¹‚ñ
-
-@SUPPORT_CRT15KHZ
-@@@…•½‘–¸15.98kHz‚ğƒTƒ|[ƒg‚·‚é(DIPSW1-1)
-
-@SUPPORT_CRT31KHZ
-@@@…•½‘–¸31.47kHz‚ğƒTƒ|[ƒg‚·‚é
-@@@Fellowƒ^ƒCƒv‚Í‚±‚ê
-
-@SUPPORT_PC9821
-@@@PC-9821Šg’£‚ÌƒTƒ|[ƒg
-@@@“–‘R‚Å‚·‚ª 386•K{‚Å‚·B
-@@@‚Ü‚½ SUPPORT_CRT31KHZ‚à•K—v‚Å‚·(ƒnƒCƒŒƒ]BIOS‚ğg—p‚·‚éˆ×)
-
-@SUPPORT_PC9861K
-@@@PC-9861K(RS-232CŠg’£I/F)‚ğƒTƒ|[ƒg
-
-@SUPPORT_IDEIO
-@@@IDE‚Ì I/OƒŒƒxƒ‹‚Å‚ÌƒTƒ|[ƒg
-@@@‚Å‚à ATA‚ÌƒŠ[ƒh’ö“x‚µ‚©‚Å‚«‚È‚¢c
-
-@SUPPORT_SASI
-@@@SASI HDD‚ğƒTƒ|[ƒg
-@@@’è‹`‚ª‚È‚¯‚ê‚ÎíIDE‚Æ‚µ‚Äì“®‚µ‚Ü‚·B
-
-@SUPPORT_SCSI
-@@@SCSI HDD‚ğƒTƒ|[ƒgc‘S‘R“®‚©‚È‚¢
-
-@SUPPORT_S98
-@@@S98ƒƒO‚ğæ“¾
-
-@SUPPORT_WAVEREC
-@@SoundƒŒƒxƒ‹‚Å waveƒtƒ@ƒCƒ‹‚Ì‘‚«o‚µŠÖ”‚ğƒTƒ|[ƒg
-@@’A‚µ‘‚«o‚µ’†‚Í ƒTƒEƒ“ƒho—Í‚ª~‚Ü‚é‚Ì‚Å@‚Ù‚ÚƒfƒoƒO—p
-
-
-// ---- screen
-
-  PC-9801ƒVƒŠ[ƒY‚Ì‰æ–ÊƒTƒCƒY‚Í•W€‚Å 641x400B
-  VGA‚Å‚Íû‚Ü‚ç‚È‚¢‚Ì‚Å ‹­§“I‚ÉVGA‚Éû‚ß‚éˆ×‚É ‰æ–Ê‰¡ƒTƒCƒY‚Í width + extend
-‚Æ‚·‚éB
-  8 < width < 640
-  8 < height < 480
-  extend = 0 or 1
-
-typedef struct {
-	BYTE	*ptr;		// VRAMƒ|ƒCƒ“ƒ^
-	int		xalign;		// x•ûŒüƒIƒtƒZƒbƒg
-	int		yalign;		// y•ûŒüƒIƒtƒZƒbƒg
-	int		width;		// ‰¡•
-	int		height;		// c•
-	UINT	bpp;		// ƒXƒNƒŠ[ƒ“Fƒrƒbƒg
-	int		extend;		// •Šg’£
-} SCRNSURF;
-
-  ƒT[ƒtƒFƒXƒTƒCƒY‚Í (width + extern) x heightB
-
-
-const SCRNSURF *scrnmng_surflock(void);
-  ‰æ–Ê•`‰æŠJn
-
-void scrnmng_surfunlock(const SCRNSURF *surf);
-  ‰æ–Ê•`‰æI—¹(‚±‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å•`‰æ)
-
-
-void scrnmng_setwidth(int posx, int width)
-void scrnmng_setextend(int extend)
-void scrnmng_setheight(int posy, int height)
-  •`‰æƒTƒCƒY‚Ì•ÏX
-  ƒEƒBƒ“ƒhƒEƒTƒCƒY‚Ì•ÏX‚·‚é
-  ƒtƒ‹ƒXƒNƒŠ[ƒ“’†‚Å‚ ‚ê‚Î •\¦—Ìˆæ‚ğ•ÏXB
-  SCRNSURF‚Å‚Í‚±‚Ì’l‚ğ•Ô‚·‚æ‚¤‚É‚·‚é
-  posx, width‚Í 8‚Ì”{”
-
-BOOL scrnmng_isfullscreen(void) c NP2ƒRƒA‚Å‚Í–¢g—p
-  ƒtƒ‹ƒXƒNƒŠ[ƒ“ó‘Ô‚Ìæ“¾
-    return: ”ñ0‚Åƒtƒ‹ƒXƒNƒŠ[ƒ“
-
-BOOL scrnmng_haveextend(void)
-  ‰¡•ó‘Ô‚Ìæ“¾
-    return: ”ñ0‚Å ‰¡•Šg’£ƒTƒ|[ƒg
-
-UINT scrnmng_getbpp(void)
-  ƒXƒNƒŠ[ƒ“Fƒrƒbƒg”‚Ìæ“¾
-    return: ƒrƒbƒg”(8/16/24/32)
-
-void scrnmng_palchanged(void)
-  ƒpƒŒƒbƒgXV‚Ì’Ê’m(8bitƒXƒNƒŠ[ƒ“ƒTƒ|[ƒg‚Ì‚İ)
-
-RGB16 scrnmng_makepal16(RGB32 pal32)
-  RGB32‚©‚ç 16bitF‚ğì¬‚·‚éB(16bitƒXƒNƒŠ[ƒ“ƒTƒ|[ƒg‚Ì‚İ)
-
-
-
-// ---- sound
-
-NP2‚ÌƒTƒEƒ“ƒhƒf[ƒ^‚Í sound.c‚ÌˆÈ‰º‚ÌŠÖ”‚æ‚èæ“¾
-  const SINT32 *sound_pcmlock(void)
-  void sound_pcmunlock(const SINT32 *hdl)
-
-
-SOUND_CRITICAL  ƒZƒ}ƒtƒH‚ğ“ü‚ê‚é(see sndcsec.c)
-SOUNDRESERVE    —\–ñƒoƒbƒtƒ@‚ÌƒTƒCƒY(ƒ~ƒŠ•b)
-  ƒTƒEƒ“ƒh‚ğŠ„‚è‚İˆ—‚·‚éê‡‚Ìw’èB
-  Š„‚è‚İ‚ÌÅ‘å‰„‘ØŠÔ‚ğSOUNDRESERVE‚Åw’èB
-  (Win9x‚Ìê‡A©‘O‚ÅƒŠƒ“ƒOƒoƒbƒtƒ@‚ğŒ©’£‚é‚Ì‚Å Š„‚è‚İ–³‚µEw’èŠÔ’Ê‚è‚É
-  ƒTƒEƒ“ƒhƒ‰ƒCƒg‚ª—ˆ‚é‚Ì‚ÅA‚±‚Ìˆ—‚Í•s—v‚¾‚Á‚½)
-
-
-UINT soundmng_create(UINT rate, UINT ms)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚ÌŠm•Û
-    input:  rate    ƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg(11025/22050/44100)
-            ms      ƒTƒ“ƒvƒŠƒ“ƒOƒoƒbƒtƒ@ƒTƒCƒY(ƒ~ƒŠ•b)
-    return: Šl“¾‚µ‚½ƒoƒbƒtƒ@‚ÌƒTƒ“ƒvƒŠƒ“ƒO”
-
-            ms‚É]‚¤•K—v‚Í‚È‚¢(SDL‚Æ‚©ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒÀ’è‚³‚ê‚é‚Ì‚Å)
-            NP2‚ÌƒTƒEƒ“ƒhƒoƒbƒtƒ@‘€ì‚Í •Ô‚è’l‚Ì‚İ‚ğ—˜—p‚µ‚Ä‚¢‚Ü‚·B
-
-
-void soundmng_destroy(void)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚ÌI—¹
-
-void soundmng_reset(void)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚ÌƒŠƒZƒbƒg
-
-void soundmng_play(void)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚ÌÄ¶
-
-void soundmng_stop(void)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚Ì’â~
-
-void soundmng_sync(void)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚ÌƒR[ƒ‹ƒoƒbƒN
-
-void soundmng_setreverse(BOOL reverse)
-  ƒTƒEƒ“ƒhƒXƒgƒŠ[ƒ€‚Ìo—Í”½“]İ’è
-    input:  reverse ”ñ0‚Å¶‰E”½“]
-
-BOOL soundmng_pcmplay(UINT num, BOOL loop)
-  PCMÄ¶
-    input:  num     PCM”Ô†
-            loop    ”ñ0‚Åƒ‹[ƒv
-
-void soundmng_pcmstop(UINT num)
-  PCM’â~
-    input:  num     PCM”Ô†
-
-
-
-// ---- mouse
-
-BYTE mousemng_getstat(SINT16 *x, SINT16 *y, int clear)
-  ƒ}ƒEƒX‚Ìó‘Ôæ“¾
-    input:  clear   ”ñ0‚Å ó‘Ô‚ğæ“¾Œã‚ÉƒJƒEƒ“ƒ^‚ğƒŠƒZƒbƒg‚·‚é
-    output: *x      clear‚©‚ç‚Ìx•ûŒüƒJƒEƒ“ƒg
-            *y      clear‚©‚ç‚Ìy•ûŒüƒJƒEƒ“ƒg
-    return: bit7    ¶ƒ{ƒ^ƒ“‚Ìó‘Ô (0:‰Ÿ‰º)
-            bit5    ‰Eƒ{ƒ^ƒ“‚Ìó‘Ô (0:‰Ÿ‰º)
-
-
-
-// ---- serial/parallel/midi
-
-COMMNG commng_create(UINT device)
-  ƒVƒŠƒAƒ‹ƒI[ƒvƒ“
-    input:  ƒfƒoƒCƒX”Ô†
-    return: ƒnƒ“ƒhƒ‹ (¸”sNULL)
-
-
-void commng_destroy(COMMNG hdl)
-  ƒVƒŠƒAƒ‹ƒNƒ[ƒY
-    input:  ƒnƒ“ƒhƒ‹ (¸”sNULL)
-
-
-
-// ---- joy stick
-
-BYTE joymng_getstat(void)
-  ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ìó‘Ôæ“¾
-
-    return: bit0    ãƒ{ƒ^ƒ“‚Ìó‘Ô (0:‰Ÿ‰º)
-            bit1    ‰ºƒ{ƒ^ƒ“‚Ìó‘Ô
-            bit2    ¶ƒ{ƒ^ƒ“‚Ìó‘Ô
-            bit3    ‰Eƒ{ƒ^ƒ“‚Ìó‘Ô
-            bit4    ˜AËƒ{ƒ^ƒ“‚P‚Ìó‘Ô
-            bit5    ˜AËƒ{ƒ^ƒ“‚Q‚Ìó‘Ô
-            bit6    ƒ{ƒ^ƒ“‚P‚Ìó‘Ô
-            bit7    ƒ{ƒ^ƒ“‚Q‚Ìó‘Ô
-
-
-// ----
-
-void sysmng_update(UINT bitmap)
-  ó‘Ô‚ª•Ï‰»‚µ‚½ê‡‚ÉƒR[ƒ‹‚³‚ê‚éB
-
-void sysmng_cpureset(void)
-  ƒŠƒZƒbƒg‚ÉƒR[ƒ‹‚³‚ê‚é
-
-
-
-void taskmng_exit(void)
-  ƒVƒXƒeƒ€‚ğI—¹‚·‚éB
-
+Machine translation of the Readme file from the author:
+__________________________________________________________
+
+NP2 for PSP ver0.38
+                                                                     2011/04/01
+                                                           Hissorii
+
+Emulate the NEC PC-9801 series
+I tried porting Neko Project II (http://www.yui.ne.jp/np2/) to PSP.
+It's omission as it is.
+The original source version is ver0.81a.
+
+Taken over from the original transplanter, sakahi
+It has been quietly developed since Ver0.34.
+
+0) Disclaimer
+
+  The author is not responsible for any damage caused by using this software.
+  Please use at your own risk.
+
+1) Preparation
+
+   Â·Install Directory
+
+   "PSP \ GAME \ np2" etc. The np2 part can be changed as you like.
+
+   ãƒ» Preparation of Japanese fonts
+
+   Get MAKEFONT32 from the Neko Project II official website. Under the NP2 Tool.
+   (http://retropc.net/yui/np2tool/index.html)
+
+   With MAKEFONT32
+     FontFace: MS Gothic
+     FontType: PC-98 Bitmap
+   Select to create font.bmp and place it in the installation directory.
+   FontFace: may be MS Mincho.
+
+2) Key operation
+
+   Right trigger: soft keyboard on / off
+   Left trigger: Menu on / off
+
+   SELECT: Key config selection mode on / off
+   START: Config key mode <-> pc98 mouse mode switching
+
+   Mode config key / pc98 mouse
+   -------------------------------------------------- -
+   â–³: Config-dependent / config-dependent
+   â–¡: Config-dependent / config-dependent
+   â—‹: Config dependent / Left mouse click (* 1)
+   Ã—: Config dependent / Right mouse click (* 1)
+   Digital pad â†‘: Config dependent / Mouse movement
+   Digital pad â†’: Config dependent / Mouse movement
+   Digital pad â†: Config dependent / Mouse movement
+   Digital pad â†“: Config dependent / Mouse movement
+   Analog pad: unused / mouse movement
+   -------------------------------------------------- -
+
+   (* 1) By checking menu-> psp-> Swap 98mouse buttons,
+        In pc98 mouse mode, â—‹ is right-clicked and Ã— is left-clicked.
+        You can change it. The change settings are saved.
+
+   2.1) Key config
+
+   Key config is done in a file called psp_key.txt.
+   Place it in the same directory as EBOOT.PBP.
+   As standard, the following psp_key.txt is included.
+
+[KeySetting]
+up = UP
+down = DOWN
+left = LEFT
+right = RIGHT
+circle = RET
+cross = ESC
+triangle = SHIFT
+square = SPC
+mm_triangle = SHIFT
+mm_square = SPC
+comment = "Basic settings (cursor key movement)"
+
+[KeySetting]
+up = [8]
+down = [2]
+left = [4]
+right = [6]
+circle = RET
+cross = ESC
+triangle = SHIFT
+square = SPC
+mm_triangle = SHIFT
+mm_square = SPC
+comment = "Basic setting (numeric keypad movement)"
+
+   ãƒ» Up / down / left / right are set when the digital pad is pressed.
+   ãƒ» Circle / cross / triangle / square are set when â—‹ / Ã— / â–³ / â–¡ are pressed respectively.
+   ãƒ» Mm_triangle / mm_square are the settings when â–³ / â–¡ is pressed in pc98 mouse mode.
+   -Comment is a comment displayed when the key config setting is selected on the PSP. With half-width ""
+     Please wrap it up. If you want to use Kanji, use SJIS.
+   -I feel that the line feed code is compatible with DOS (Windows), MAC, and Unix.
