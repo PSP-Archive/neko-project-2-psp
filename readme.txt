@@ -1,100 +1,75 @@
-Machine translation of the Readme file from the author:
-__________________________________________________________
 
-NP2 for PSP ver0.38
-                                                                     2011/04/01
-                                                           Hissorii
+enum {
+	BIOS_SEG		= 0xfd80,
+	BIOS_BASE		= (BIOS_SEG << 4),
 
-Emulate the NEC PC-9801 series
-I tried porting Neko Project II (http://www.yui.ne.jp/np2/) to PSP.
-It's omission as it is.
-The original source version is ver0.81a.
+	BIOS_TABLE		= 0x0040,
 
-Taken over from the original transplanter, sakahi
-It has been quietly developed since Ver0.34.
+	BIOSOFST_ITF	= 0x0080,
+	BIOSOFST_INIT	= 0x0084,
 
-0) Disclaimer
+	BIOSOFST_09		= 0x0088,					// Keyboard
+	BIOSOFST_0c		= 0x008c,					// Serial
 
-  The author is not responsible for any damage caused by using this software.
-  Please use at your own risk.
+	BIOSOFST_12		= 0x0090,					// FDC
+	BIOSOFST_13		= 0x0094,					// FDC
 
-1) Preparation
+	BIOSOFST_18		= 0x0098,					// Common
+	BIOSOFST_19		= 0x009c,					// RS-232C
+	BIOSOFST_CMT	= 0x00a0,					// CMT
+	BIOSOFST_PRT	= 0x00a4,					// Printer
+	BIOSOFST_1b		= 0x00a8,					// Disk
+	BIOSOFST_1c		= 0x00ac,					// Timer
+	BIOSOFST_1f		= 0x00b0,					// Ext
 
-   ·Install Directory
+	BIOSOFST_WAIT	= 0x00b4					// FDD waiting
+};
 
-   "PSP \ GAME \ np2" etc. The np2 part can be changed as you like.
 
-   ・ Preparation of Japanese fonts
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-   Get MAKEFONT32 from the Neko Project II official website. Under the NP2 Tool.
-   (http://retropc.net/yui/np2tool/index.html)
+// extern	BOOL	biosrom;
 
-   With MAKEFONT32
-     FontFace: MS Gothic
-     FontType: PC-98 Bitmap
-   Select to create font.bmp and place it in the installation directory.
-   FontFace: may be MS Mincho.
 
-2) Key operation
+void bios_initialize(void);
+UINT MEMCALL biosfunc(UINT32 adrs);
 
-   Right trigger: soft keyboard on / off
-   Left trigger: Menu on / off
+void bios0x09(void);
+void bios0x09_init(void);
 
-   SELECT: Key config selection mode on / off
-   START: Config key mode <-> pc98 mouse mode switching
+void bios0x0c(void);
 
-   Mode config key / pc98 mouse
-   -------------------------------------------------- -
-   △: Config-dependent / config-dependent
-   □: Config-dependent / config-dependent
-   ○: Config dependent / Left mouse click (* 1)
-   ×: Config dependent / Right mouse click (* 1)
-   Digital pad ↑: Config dependent / Mouse movement
-   Digital pad →: Config dependent / Mouse movement
-   Digital pad ←: Config dependent / Mouse movement
-   Digital pad ↓: Config dependent / Mouse movement
-   Analog pad: unused / mouse movement
-   -------------------------------------------------- -
+void bios0x12(void);
+void bios0x13(void);
 
-   (* 1) By checking menu-> psp-> Swap 98mouse buttons,
-        In pc98 mouse mode, ○ is right-clicked and × is left-clicked.
-        You can change it. The change settings are saved.
+void bios0x18(void);
+void bios0x18_0a(REG8 mode);
+void bios0x18_0c(void);
+void bios0x18_10(REG8 curdel);
+REG16 bios0x18_14(REG16 seg, REG16 off, REG16 code);
+void bios0x18_16(REG8 chr, REG8 atr);
+void bios0x18_40(void);
+void bios0x18_41(void);
+void bios0x18_42(REG8 mode);
 
-   2.1) Key config
+void bios0x19(void);
 
-   Key config is done in a file called psp_key.txt.
-   Place it in the same directory as EBOOT.PBP.
-   As standard, the following psp_key.txt is included.
+void bios0x1a_cmt(void);
+void bios0x1a_prt(void);
 
-[KeySetting]
-up = UP
-down = DOWN
-left = LEFT
-right = RIGHT
-circle = RET
-cross = ESC
-triangle = SHIFT
-square = SPC
-mm_triangle = SHIFT
-mm_square = SPC
-comment = "Basic settings (cursor key movement)"
+void bios0x1b(void);
+UINT bios0x1b_wait(void);
+void fddbios_equip(REG8 type, BOOL clear);
 
-[KeySetting]
-up = [8]
-down = [2]
-left = [4]
-right = [6]
-circle = RET
-cross = ESC
-triangle = SHIFT
-square = SPC
-mm_triangle = SHIFT
-mm_square = SPC
-comment = "Basic setting (numeric keypad movement)"
+REG16 bootstrapload(void);
 
-   ・ Up / down / left / right are set when the digital pad is pressed.
-   ・ Circle / cross / triangle / square are set when ○ / × / △ / □ are pressed respectively.
-   ・ Mm_triangle / mm_square are the settings when △ / □ is pressed in pc98 mouse mode.
-   -Comment is a comment displayed when the key config setting is selected on the PSP. With half-width ""
-     Please wrap it up. If you want to use Kanji, use SJIS.
-   -I feel that the line feed code is compatible with DOS (Windows), MAC, and Unix.
+void bios0x1c(void);
+
+void bios0x1f(void);
+
+#ifdef __cplusplus
+}
+#endif
+
